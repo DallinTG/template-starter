@@ -211,7 +211,7 @@ Sprite :: struct {
 sprites: [user.Sprite_Name]Sprite
 
 load_sprites_into_atlas :: proc() {
-	img_dir := "res/images/"
+	img_dir := fmt.tprintf("%v/images/",user.res_path)
 	
 	for img_name in user.Sprite_Name {
 		if img_name == .nil do continue
@@ -329,7 +329,7 @@ load_font :: proc() {
 	
 	bitmap, _ := mem.alloc(font_bitmap_w * font_bitmap_h)
 	font_height := 15 // for some reason this only bakes properly at 15 ? it's a 16px font dou...
-	path := "res/fonts/alagard.ttf" // #user
+	path := fmt.tprintf("%v/fonts/alagard.ttf",user.res_path) // #user
 	ttf_data, err := os.read_entire_file(path)
 	assert(ttf_data != nil, "failed to read font")
 	
