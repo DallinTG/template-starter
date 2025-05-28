@@ -65,22 +65,24 @@ ZLayer :: enum u8 {
 	top,
 }
 
-Sprite_Name :: enum {
-	nil,
-	bald_logo,
-	fmod_logo,
-	player_still,
-	shadow_medium,
-	bg_repeat_tex0,
-	player_death,
-	player_run,
-	player_idle,
-	// to add new sprites, just put the .png in the res/images folder
-	// and add the name to the enum here
-	//
-	// we could auto-gen this based on all the .png's in the images folder
-	// but I don't really see the point right now. It's not hard to type lol.
-}
+//	is now auto generated
+
+// Sprite_Name :: enum {
+// 	nil,
+// 	bald_logo,
+// 	fmod_logo,
+// 	player_still,
+// 	shadow_medium,
+// 	bg_repeat_tex0,
+// 	player_death,
+// 	player_run,
+// 	player_idle,
+// 	// to add new sprites, just put the .png in the res/images folder
+// 	// and add the name to the enum here
+// 	//
+// 	// we could auto-gen this based on all the .png's in the images folder
+// 	// but I don't really see the point right now. It's not hard to type lol.
+// }
 
 sprite_data: [Sprite_Name]Sprite_Data = #partial {
 	.player_idle = {frame_count=2},

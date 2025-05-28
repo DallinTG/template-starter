@@ -23,6 +23,8 @@ import "core:time"
 import logger "../bald/utils/logger"
 import utils "../bald/utils"
 
+GEN_SPRITE_NAMES := #config(GEN_SPRITE_NAMES, true)
+
 EXE_NAME :: "game"
 res_path:="res"
 
@@ -77,6 +79,7 @@ main :: proc() {
 		fprintln(f, "	windows,")
 		fprintln(f, "	mac,")
 		fprintln(f, "}")
+
 		fprintln(f, tprintf("PLATFORM :: Platform.%v", target))
 	}
 
@@ -99,7 +102,9 @@ main :: proc() {
 		fprintln(f, "package core_user")
 		fprintln(f, "")
 		fprintln(f, "res_path ::",tprintf("\"%v\"",res_path))
-		
+		if GEN_SPRITE_NAMES{
+			gen_sprite_names(f)
+		}
 	}
 	
 	// generate the shader
@@ -167,6 +172,8 @@ main :: proc() {
 
 	fmt.println("DONE in", time.diff(start_time, time.now()))
 }
+
+
 
 
 // value extraction example:
