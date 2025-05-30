@@ -23,10 +23,10 @@ import "core:time"
 import logger "../bald/utils/logger"
 import utils "../bald/utils"
 
-GEN_SPRITE_NAMES := #config(GEN_SPRITE_NAMES, true)
+GEN_SPRITE_NAMES :: #config(GEN_SPRITE_NAMES, true)
+res_path := #config(RES_PATH, "res")
 
 EXE_NAME :: "game"
-res_path:="res"
 
 Target :: enum {
 	windows,

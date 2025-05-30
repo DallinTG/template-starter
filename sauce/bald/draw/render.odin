@@ -46,7 +46,7 @@ clear_col: Vec4
 
 Quad :: [4]Vertex;
 Vertex :: struct {
-	pos: Vec2,
+	pos: Vec3,
 	col: Vec4,
 	uv: Vec2,
 	local_uv: Vec2,
@@ -105,7 +105,7 @@ render_init :: proc() {
 		index_type = .UINT16,
 		layout = {
 			attrs = {
-				user.ATTR_quad_position = { format = .FLOAT2 },
+				user.ATTR_quad_position = { format = .FLOAT3 },
 				user.ATTR_quad_color0 = { format = .FLOAT4 },
 				user.ATTR_quad_uv0 = { format = .FLOAT2 },
 				user.ATTR_quad_local_uv0 = { format = .FLOAT2 },
@@ -114,6 +114,10 @@ render_init :: proc() {
 				user.ATTR_quad_color_override0 = { format = .FLOAT4 },
 				user.ATTR_quad_params0 = { format = .FLOAT4 },
 			},
+		},
+		depth ={
+			compare =.LESS_EQUAL,
+			write_enabled=true,
 		}
 	}
 	blend_state : sg.Blend_State = {
@@ -392,7 +396,7 @@ draw_quad_projected :: proc(
 	world_to_clip:   Matrix4, 
 
 	// for each corner of the quad
-	positions:       [4]Vec2,
+	positions:       [4]Vec3,
 	colors:          [4]Vec4,
 	uvs:             [4]Vec2,
 
@@ -439,10 +443,10 @@ draw_quad_projected :: proc(
 
 	}
 	
-	verts[0].pos = (world_to_clip * Vec4{positions[0].x, positions[0].y, 0.0, 1.0}).xy
-	verts[1].pos = (world_to_clip * Vec4{positions[1].x, positions[1].y, 0.0, 1.0}).xy
-	verts[2].pos = (world_to_clip * Vec4{positions[2].x, positions[2].y, 0.0, 1.0}).xy
-	verts[3].pos = (world_to_clip * Vec4{positions[3].x, positions[3].y, 0.0, 1.0}).xy
+	verts[0].pos = (world_to_clip * Vec4{positions[0].x, positions[0].y, positions[0].z, 1.0}).xyz
+	verts[1].pos = (world_to_clip * Vec4{positions[1].x, positions[1].y, positions[1].z, 1.0}).xyz
+	verts[2].pos = (world_to_clip * Vec4{positions[2].x, positions[2].y, positions[2].z, 1.0}).xyz
+	verts[3].pos = (world_to_clip * Vec4{positions[3].x, positions[3].y, positions[3].z, 1.0}).xyz
 	
 	verts[0].col = colors[0]
 	verts[1].col = colors[1]
