@@ -150,16 +150,16 @@ core_render_frame_end :: proc() {
 	// merge all the layers into a big ol' array to draw
 	total_quad_count := 0
 	{
-		for quads_in_layer, layer in draw_frame.quads {
-			total_quad_count += len(quads_in_layer)
-		}
+	
+		total_quad_count += len(draw_frame.quads)
+
 		assert(total_quad_count <= MAX_QUADS)
 		offset := 0
-		for quads_in_layer, layer in draw_frame.quads {
-			size := size_of(Quad) * len(quads_in_layer)
-			mem.copy(mem.ptr_offset(raw_data(actual_quad_data[:]), offset), raw_data(quads_in_layer), size)
-			offset += size
-		}
+	
+		size := size_of(Quad) * len(draw_frame.quads)
+		mem.copy(mem.ptr_offset(raw_data(actual_quad_data[:]), offset), raw_data(draw_frame.quads), size)
+		offset += size
+		
 	}
 	
 	render_state.bind.images[user.IMG_tex0] = atlas.sg_image
@@ -183,18 +183,18 @@ core_render_frame_end :: proc() {
 
 reset_draw_frame :: proc() {
 	draw_frame.reset = {}
-
+	clear(&draw_frame.quads)
 	// TODO, do something about this monstrosity
-	draw_frame.quads[.background] = make([dynamic]Quad, 0, 512, allocator=context.temp_allocator)
-	draw_frame.quads[.shadow] = make([dynamic]Quad, 0, 128, allocator=context.temp_allocator)
-	draw_frame.quads[.playspace] = make([dynamic]Quad, 0, 256, allocator=context.temp_allocator)
-	draw_frame.quads[.tooltip] = make([dynamic]Quad, 0, 256, allocator=context.temp_allocator)
+	// draw_frame.quads[.background] = make([dynamic]Quad, 0, 512, allocator=context.temp_allocator)
+	// draw_frame.quads[.shadow] = make([dynamic]Quad, 0, 128, allocator=context.temp_allocator)
+	// draw_frame.quads[.playspace] = make([dynamic]Quad, 0, 256, allocator=context.temp_allocator)
+	// draw_frame.quads[.tooltip] = make([dynamic]Quad, 0, 256, allocator=context.temp_allocator)
 }
 
 Draw_Frame :: struct {
-
+	quads: [dynamic]Quad,
 	using reset: struct {
-		quads: [user.ZLayer][dynamic]Quad, // this is super scuffed, but I did this to optimise the sort, I'm sure there's a better fix.
+		// quads: [user.ZLayer][dynamic]Quad, // this is super scuffed, but I did this to optimise the sort, I'm sure there's a better fix.
 		coord_space: Coord_Space,
 		active_z_layer: user.ZLayer,
 		active_scissor: shape.Rect,
@@ -420,26 +420,27 @@ draw_quad_projected :: proc(
 
 	verts : [4]Vertex
 	defer {
-		quad_array := &draw_frame.quads[z_layer0]
-		quad_array.allocator = context.temp_allocator
+		quad_array := &draw_frame.quads
+		append(quad_array, verts)
+		// // quad_array.allocator = context.temp_allocator
 
-		if z_layer_queue == -1 {
-			append(quad_array, verts)
-		} else {
+		// if z_layer_queue == -1 {
+		// 	append(quad_array, verts)
+		// } else {
 
-			assert(z_layer_queue < len(quad_array), "no elements pushed after the z_layer_queue")
+		// 	assert(z_layer_queue < len(quad_array), "no elements pushed after the z_layer_queue")
 
-			// I'm just kinda praying that this works lol, seems good
+		// 	// I'm just kinda praying that this works lol, seems good
 			
-			// This is an array insert example
-			resize_dynamic_array(quad_array, len(quad_array)+1)
+		// 	// This is an array insert example
+		// 	resize_dynamic_array(quad_array, len(quad_array)+1)
 			
-			og_range := quad_array[z_layer_queue:len(quad_array)-1]
-			new_range := quad_array[z_layer_queue+1:len(quad_array)]
-			copy(new_range, og_range)
+		// 	og_range := quad_array[z_layer_queue:len(quad_array)-1]
+		// 	new_range := quad_array[z_layer_queue+1:len(quad_array)]
+		// 	copy(new_range, og_range)
 
-			quad_array[z_layer_queue] = verts
-		}
+		// 	quad_array[z_layer_queue] = verts
+		// }
 
 	}
 	
