@@ -184,11 +184,6 @@ core_render_frame_end :: proc() {
 reset_draw_frame :: proc() {
 	draw_frame.reset = {}
 	clear(&draw_frame.quads)
-	// TODO, do something about this monstrosity
-	// draw_frame.quads[.background] = make([dynamic]Quad, 0, 512, allocator=context.temp_allocator)
-	// draw_frame.quads[.shadow] = make([dynamic]Quad, 0, 128, allocator=context.temp_allocator)
-	// draw_frame.quads[.playspace] = make([dynamic]Quad, 0, 256, allocator=context.temp_allocator)
-	// draw_frame.quads[.tooltip] = make([dynamic]Quad, 0, 256, allocator=context.temp_allocator)
 }
 
 Draw_Frame :: struct {
@@ -422,26 +417,6 @@ draw_quad_projected :: proc(
 	defer {
 		quad_array := &draw_frame.quads
 		append(quad_array, verts)
-		// // quad_array.allocator = context.temp_allocator
-
-		// if z_layer_queue == -1 {
-		// 	append(quad_array, verts)
-		// } else {
-
-		// 	assert(z_layer_queue < len(quad_array), "no elements pushed after the z_layer_queue")
-
-		// 	// I'm just kinda praying that this works lol, seems good
-			
-		// 	// This is an array insert example
-		// 	resize_dynamic_array(quad_array, len(quad_array)+1)
-			
-		// 	og_range := quad_array[z_layer_queue:len(quad_array)-1]
-		// 	new_range := quad_array[z_layer_queue+1:len(quad_array)]
-		// 	copy(new_range, og_range)
-
-		// 	quad_array[z_layer_queue] = verts
-		// }
-
 	}
 	
 	verts[0].pos = (world_to_clip * Vec4{positions[0].x, positions[0].y, positions[0].z, 1.0}).xyz

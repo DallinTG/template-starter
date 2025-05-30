@@ -17,6 +17,7 @@ import "bald:sound"
 import "bald:utils"
 import "bald:utils/color"
 
+
 import "core:log"
 import "core:fmt"
 import "core:mem"
@@ -237,28 +238,15 @@ game_draw :: proc() {
 		draw.push_coord_space({get_clip_space_proj(), get_clip_space_camera()})
 
 		// draw rect that covers the whole screen
-		draw.draw_rect(Rect{ -1, -1, 1, 1}, flags=.background_pixels,z=0) // we leave it in the hands of the shader
+		draw.draw_rect(Rect{ -1, -1, 1, 1}, flags=.background_pixels,z_layer = .background) // we leave it in the hands of the shader
 	}
 
 	// world
 	{
 		draw.push_coord_space(get_world_space())
 
-		draw.draw_sprite({10, -15}, .player_still, col_override=Vec4{1,1,0,1},z=-49)
-		// draw.draw_sprite({10, -10}, .player_still, col_override=Vec4{1,.8,0,1},z=-2)
-		// draw.draw_sprite({10, -5}, .player_still, col_override=Vec4{1,.6,0,1},z=-1.5)
-		// draw.draw_sprite({10, 0}, .player_still, col_override=Vec4{1,.4,0,1},z=-1)
-		// draw.draw_sprite({10, 5}, .player_still, col_override=Vec4{1,.2,0,1},z=-.5)
-		// draw.draw_sprite({10, 10}, .player_still, col_override=Vec4{1,0,0,1},z=0)
-		// draw.draw_sprite({10, 15}, .player_still, col_override=Vec4{1,0,.2,1},z=.5)
-		// draw.draw_sprite({10, 20}, .player_still, col_override=Vec4{1,0,.4,1},z=1)
-		// draw.draw_sprite({10, 25}, .player_still, col_override=Vec4{1,0,.6,1},z=1.5)
-		// draw.draw_sprite({10, 30}, .player_still, col_override=Vec4{1,0,.8,1},z=2)
-		// draw.draw_sprite({10, 35}, .player_still, col_override=Vec4{1,0,1,1},z=2.5)
-
-		// draw.draw_sprite({10, 10}, .player_still, col_override=Vec4{1,0,0,1},z=.010)
-		draw.draw_sprite({14, 10}, .player_still, col_override=Vec4{1,1,0,1},z=0)
-		draw.draw_sprite({-10, 10}, .player_still)
+		draw.draw_sprite({10, 10}, .player_still, col_override=Vec4{1,0,0,.4}, z=-1)
+		draw.draw_sprite({-10, 10}, .player_still, col_override=Vec4{0,0,1,.4}, z=1,)
 
 		draw.draw_text({0, -50}, "sugon", pivot=.bottom_center, col={0,0,0,0.1})
 

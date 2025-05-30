@@ -50,14 +50,14 @@ Quad_Flags :: enum u8 {
 	flag3 = (1<<2),
 }
 
-ZLayer :: enum u8 {
+ZLayer :: enum i8 {
 	// Can add as many layers as you want in here.
 	// Quads get sorted and drawn lowest to highest.
 	// When things are on the same layer, they follow normal call order.
 	nil,
-	background,
-	shadow,
-	playspace,
+	background=-90,
+	shadow=-2,
+	playspace=0,
 	vfx,
 	ui,
 	tooltip,

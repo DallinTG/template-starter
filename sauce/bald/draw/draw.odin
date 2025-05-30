@@ -68,8 +68,6 @@ draw_sprite :: proc(
 	crop_bottom:f32=0.0,
 	crop_right:f32=0.0,
 
-	// this is used to scuffed insert the quad at an earlier draw spot
-	z_layer_queue:=-1,
 ) {
 
 	rect_size := get_sprite_size(sprite)
@@ -103,7 +101,7 @@ draw_sprite :: proc(
 	}
 	*/
 
-	draw_rect_xform(xform0, rect_size,z=z, sprite=sprite, anim_index=anim_index, col=col, col_override=col_override, z_layer=z_layer, flags=flags, params=params, crop_top=crop_top, crop_left=crop_left, crop_bottom=crop_bottom, crop_right=crop_right, z_layer_queue=z_layer_queue)
+	draw_rect_xform(xform0, rect_size,z=z, sprite=sprite, anim_index=anim_index, col=col, col_override=col_override, z_layer=z_layer, flags=flags, params=params, crop_top=crop_top, crop_left=crop_left, crop_bottom=crop_bottom, crop_right=crop_right)
 }
 
 // draw a pre-positioned rect
@@ -131,7 +129,6 @@ draw_rect :: proc(
 	crop_left:f32=0.0,
 	crop_bottom:f32=0.0,
 	crop_right:f32=0.0,
-	z_layer_queue:=-1,
 ) {
 	// extract the transform from the rect
 	xform := utils.xform_translate(rect.xy)
@@ -146,7 +143,7 @@ draw_rect :: proc(
 		draw_rect_xform(xform, size, z, col=outline_col, uv=uv, col_override=col_override, z_layer=z_layer, flags=flags, params=params)
 	}
 
-	draw_rect_xform(xform, size, z, sprite, uv, 0, 0, col, col_override, z_layer, flags, params, crop_top, crop_left, crop_bottom, crop_right, z_layer_queue)
+	draw_rect_xform(xform, size, z, sprite, uv, 0, 0, col, col_override, z_layer, flags, params, crop_top, crop_left, crop_bottom, crop_right)
 }
 
 // #cleanup - this should be a utility
@@ -230,8 +227,6 @@ draw_rect_xform :: proc(
 	crop_left:f32=0.0,
 	crop_bottom:f32=0.0,
 	crop_right:f32=0.0,
-	z_layer_queue:=-1,
-
 ) {
 
 	// apply ui alpha override
@@ -303,5 +298,5 @@ draw_rect_xform :: proc(
 		tex_index = 255
 	}
 
-	draw_quad_projected(local_to_clip_space, {bl, tl, tr, br}, {col, col, col, col}, {uv.xy, uv.xw, uv.zw, uv.zy}, tex_index, size, col_override, z_layer, flags, params, z_layer_queue)
+	draw_quad_projected(local_to_clip_space, {bl, tl, tr, br}, {col, col, col, col}, {uv.xy, uv.xw, uv.zw, uv.zy}, tex_index, size, col_override, z_layer, flags, params)
 }
