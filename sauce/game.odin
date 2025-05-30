@@ -170,6 +170,7 @@ app_frame :: proc() {
 
 app_shutdown :: proc() {
 	// called on exit
+	delete(draw.draw_frame[:])
 }
 
 game_update :: proc() {
@@ -294,7 +295,6 @@ draw_sprite_entity :: proc(
 	crop_left:f32=0.0,
 	crop_bottom:f32=0.0,
 	crop_right:f32=0.0,
-	z_layer_queue:=-1,
 ) {
 
 	col_override := col_override
