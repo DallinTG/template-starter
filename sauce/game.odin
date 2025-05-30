@@ -170,7 +170,7 @@ app_frame :: proc() {
 
 app_shutdown :: proc() {
 	// called on exit
-	delete(draw.draw_frame[:])
+	delete(draw.draw_frame.quads)
 }
 
 game_update :: proc() {
