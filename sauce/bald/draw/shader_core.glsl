@@ -51,6 +51,8 @@ void main() {
 
 layout(binding=0) uniform texture2D tex0;
 layout(binding=1) uniform texture2D font_tex;
+layout(binding=2) uniform texture2D test;
+
 
 layout(binding=0) uniform sampler default_sampler;
 

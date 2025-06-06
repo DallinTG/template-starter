@@ -59,7 +59,7 @@ ZLayer :: enum i8 {
 	shadow=-2,
 	playspace=0,
 	vfx,
-	ui,
+	ui=75,
 	tooltip,
 	pause_menu,
 	top,
